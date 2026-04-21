@@ -14,6 +14,18 @@ const date = z
 const emptyString = z.string().trim()
 const emptyStringToNull = emptyString.nullable().transform((value) => value || null)
 const float = z.coerce.number()
+// NaN-tolerant float: coerces NaN / "NaN" / empty string to null. GHIN returns
+// these in statistics objects for rounds without tracked data.
+const floatSafe = z.preprocess((v) => {
+  if (v === null || v === undefined) return null
+  if (typeof v === 'string') {
+    if (v === '' || v.toLowerCase() === 'nan') return null
+    const n = Number(v)
+    return Number.isFinite(n) ? n : null
+  }
+  if (typeof v === 'number') return Number.isFinite(v) ? v : null
+  return v
+}, z.number().nullable())
 const gender = z.enum(['M', 'F'])
 
 const handicap = z
@@ -65,4 +77,4 @@ const shortDate = z
     return new Date(`${year}-${month}-${day}T00:00Z`)
   })
 
-export { boolean, date, emptyStringToNull, float, gender, handicap, monthDay, number, shortDate, string }
+export { boolean, date, emptyStringToNull, float, floatSafe, gender, handicap, monthDay, number, shortDate, string }
