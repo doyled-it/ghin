@@ -31,16 +31,17 @@ const schemaScoreTypeWithTransform: z.ZodType<RawScoreType, z.ZodTypeDef, ScoreT
   (value) => scoreTypesMap[value]
 )
 
-const scoreStatuses = ['VALIDATED', 'UNDER_REVIEW'] as const
+const scoreStatuses = ['VALIDATED', 'UNDER_REVIEW', 'TEMPORARY'] as const
 const schemaScoreStatus = z.enum(scoreStatuses)
 type ScoreStatus = z.infer<typeof schemaScoreStatus>
 
-const rawScoreStatuses = ['Validated', 'UnderReview'] as const
+const rawScoreStatuses = ['Validated', 'UnderReview', 'Temporary'] as const
 const schemaRawScoreStatus = z.enum(rawScoreStatuses)
 
 const scoreStatusesMap = {
   Validated: 'VALIDATED',
   UnderReview: 'UNDER_REVIEW',
+  Temporary: 'TEMPORARY',
 } as const
 
 const schemaScoreStatusWithTransform = schemaRawScoreStatus.transform(

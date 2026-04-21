@@ -1,23 +1,25 @@
 import { z } from 'zod'
-import { date, emptyStringToNull, float, number } from '../../../../models'
+import { date, emptyStringToNull, float, floatSafe, number } from '../../../../models'
 
+// GHIN sends NaN (or "NaN" strings) for fairway/miss percents on rounds where
+// the user didn't log that stat. Use floatSafe (nullable) for those fields.
 const schemaStatistics = z.object({
   birdies_or_better_percent: float,
   bogeys_percent: float,
   double_bogeys_percent: float,
-  fairway_hits_percent: float,
+  fairway_hits_percent: floatSafe,
   gir_percent: float,
   last_stats_update_date: date,
   last_stats_update_type: emptyStringToNull,
   missed_general_approach_shot_accuracy_percent: float,
   missed_left_approach_shot_accuracy_percent: float,
-  missed_left_percent: float,
+  missed_left_percent: floatSafe,
   missed_long_approach_shot_accuracy_percent: float,
-  missed_long_percent: float,
+  missed_long_percent: floatSafe,
   missed_right_approach_shot_accuracy_percent: float,
-  missed_right_percent: float,
+  missed_right_percent: floatSafe,
   missed_short_approach_shot_accuracy_percent: float,
-  missed_short_percent: float,
+  missed_short_percent: floatSafe,
   one_putt_or_better_percent: float,
   par3s_average: float,
   par4s_average: float,
