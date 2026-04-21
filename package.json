@@ -25,7 +25,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.4",
